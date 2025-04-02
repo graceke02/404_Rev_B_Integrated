@@ -173,7 +173,7 @@ def basis(accel, bus_accel, s): #accel is the class object
     accel.z_tol_l = (accel.z_basis) - abs(10*np.std(z)) #get 3 std dev of z values, lower bound 
 
 
-def check_accel(accel, bus_accel, s):
+def check_accel(accel, bus_accel, s, bound_multiplier):
     #read all the values 
     try:
         #x_lsb = bus_accel.read_byte_data(accel.address, accel.Out_X_LSB)  #read LSB of x-axis accelerometer 
@@ -189,10 +189,10 @@ def check_accel(accel, bus_accel, s):
         accel.z_val = convert(z_lsb,z_msb) #convert value
 
         #now compare 
-        accel.compare()
+        accel.compare(bound_multiplier)
 
         #now see if need to set flag 
-        if accel.int_count >= 3:
+        if accel.int_count >= 1: #changing to 1 for now to z. not using noisy x axis
             accel.accel_flag = True
             print("Accelerometer motion")
             print("Accel Basis:", accel.y_basis, accel.z_basis)
