@@ -32,7 +32,7 @@ def pan_to_sensor(pir_flags):
     #0x400 is pir2 (middle)
     #0x800 is pir3 (left)
 
-    
+    #IF POSITION IS ALREADY SET TO WHAT WE WANT - DONT SEND A NEW COMMAND
     #first check if all three are triggered
     if pir_flags.pir1_flag and pir_flags.pir2_flag and pir_flags.pir3_flag:
         #pan_val = pan_position #if all three are triggered - don't move 
@@ -69,8 +69,8 @@ def pan_to_sensor(pir_flags):
         p = False
 
 
-    if p:
-        
+    #IF POSITION IS ALREADY SET TO WHAT WE WANT - DONT SEND A NEW COMMAND
+    if p and (set_and_status.position != pan_val):
         hex_value = f"{pan_val:03X}"[-3:] #hex val of pan 
         prefix = '0' #prefix of what to send to motor control
         command = f"CO{prefix}{hex_value}\n" #full command value
