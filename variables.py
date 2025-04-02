@@ -340,18 +340,18 @@ class accel:
     Out_Z_LSB = 0x08 #LSB of z-axis accelerometer 
     Out_Z_MSB = 0x09 #MSB of z-axis accelerometer 
 
-    def compare(self):
+    def compare(self, bound_multiplier):
         #need to build in motion check 
         
         """ if abs(self.x_val) >  self.x_tol_u:
             self.int_count += 1 """
-        if (self.y_val) > self.y_tol_u:
+        if (self.y_val) > (self.y_tol_u*bound_multiplier):
             self.int_count += 1 
-        elif (self.z_val) > self.z_tol_u:
+        elif (self.z_val) > (self.z_tol_u*bound_multiplier):
             self.int_count += 1 
-        elif (self.y_val) < self.y_tol_l:
+        elif (self.y_val) < (self.y_tol_l*bound_multiplier):
             self.int_count += 1 
-        elif (self.z_val) < self.z_tol_l:
+        elif (self.z_val) < (self.z_tol_l*bound_multiplier):
             self.int_count += 1 
         else:
             #no accel movement detected - set everything to zero 
