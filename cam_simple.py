@@ -62,10 +62,11 @@ def cam(s_move_time,lock):#ouput_name, cam_event):#, accelerometer, prop_lines):
         s = s_move_time.value #time of serial movement 
         if ((s+2) < time.time()):# and ((pir_flags.motion_time + 2) < time.time()): #if its been 2 seconds from last serial move commnand
             #first thing - check accelerometer
-            check_accel(a, bus_accel, set_and_status, 5)
+            check_accel(a, bus_accel, set_and_status, 1)
         else:
-            #serial motion has occured in last 2 seconds - widen bounds 
-            check_accel(a, bus_accel, set_and_status, 10) #this bound is not definite - just a guess
+            #serial motion has occured in last 2 seconds - widen bounds
+            #toerance is +-5 std deviations from mean. This multiplies that tolerance by two. Tolerance is set when taking the basis
+            check_accel(a, bus_accel, set_and_status, 2) #this bound is not definite - just a guess
             """ elif a.accel_flag:
                 cam_event.clear()
                 accel_flag_write(True)
